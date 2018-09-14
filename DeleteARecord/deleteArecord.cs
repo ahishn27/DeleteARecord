@@ -60,9 +60,9 @@ namespace DeleteARecord
                         tracingService.Trace("Count :" + results.EntityName);
                         tracingService.Trace("Results :" + results.ToString());
                 
-            foreach(Entity contact in results.Entities)
+            foreach(Entity con in results.Entities)
                         {
-                            tracingService.Trace("Name" + contact["firstname"]);
+                            tracingService.Trace("Name" + con["fullname"]);
                         }
 
                  
