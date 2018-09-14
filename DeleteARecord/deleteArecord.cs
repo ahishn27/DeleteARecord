@@ -22,7 +22,6 @@ namespace DeleteARecord
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             tracingService.Trace("Context Obtained Invoked");
 
-
             if(context.InputParameters.Contains("Target") & context.InputParameters["Target"] is Entity)
             {
 
@@ -41,13 +40,6 @@ namespace DeleteARecord
             string AccountStatus = account["new_accountstatus"].ToString();
             tracingService.Trace("Account Status Updated to " + AccountStatus);
 
-            //String AccountStatus =account.FormattedValues["new_accountstatus"].ToString();
-            //string AS = account["new_accountstatus"].ToString();
-            //int value = ((OptionSetValue)account["new_accountstatus"]).Value;
-            //tracingService.Trace("Option set :"+AS);
-            //tracingService.Trace("Option set value :{0}",value);
-            //tracingService.Trace("before Exception");
-
             if (AccountStatus == "False")
             {
 
@@ -63,11 +55,12 @@ namespace DeleteARecord
             foreach(Entity con in results.Entities)
                         {
                             tracingService.Trace("Name" + con["fullname"]);
+                            tracingService.Trace("GUID" + con.Id);
+                            service.Delete(results.EntityName, con.Id);
+                            tracingService.Trace("Record Deleted");
                         }
-
-                 
-            }                
-
+                        tracingService.Trace("All " + results.Entities.Count + " Records Associated with contacts deleted successfully");
+                  }                
             }
             catch (Exception e)
             {
