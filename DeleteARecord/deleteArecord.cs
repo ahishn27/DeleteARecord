@@ -38,8 +38,7 @@ namespace DeleteARecord
             IOrganizationService service = organizationServiceFactory.CreateOrganizationService(context.UserId);
             tracingService.Trace("Org Service Invoked");
 
-
-            string AccountStatus = account["new_account_status"].ToString();
+            String AccountStatus =account.FormattedValues["new_account_status"].ToString();
             tracingService.Trace("Account Status Updated to "+ AccountStatus);
 
             if (AccountStatus == "Inactive")
