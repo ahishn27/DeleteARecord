@@ -39,7 +39,7 @@ namespace DeleteARecord
             tracingService.Trace("Org Service Invoked");
 
 
-            string AccountStatus = account["new_accountstatus"].ToString();
+            string AccountStatus = account["new_account_status"].ToString();
             tracingService.Trace("Account Status Updated to "+ AccountStatus);
 
             if (AccountStatus == "Inactive")
@@ -60,13 +60,7 @@ namespace DeleteARecord
                     tracingService.Trace("{0}", e.ToString());
                     throw;
             }
-        }
-
-        
-
-
-
-
-        }
+          }
+       }
     }
 }
