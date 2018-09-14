@@ -38,19 +38,34 @@ namespace DeleteARecord
             IOrganizationService service = organizationServiceFactory.CreateOrganizationService(context.UserId);
             tracingService.Trace("Org Service Invoked");
 
-            String AccountStatus =account.FormattedValues["new_account_status"].ToString();
-            tracingService.Trace("Account Status Updated to "+ AccountStatus);
+            string AccountStatus = account["new_accountstatus"].ToString();
+            tracingService.Trace("Account Status Updated to " + AccountStatus);
 
-            if (AccountStatus == "Inactive")
+            //String AccountStatus =account.FormattedValues["new_accountstatus"].ToString();
+            //string AS = account["new_accountstatus"].ToString();
+            //int value = ((OptionSetValue)account["new_accountstatus"]).Value;
+            //tracingService.Trace("Option set :"+AS);
+            //tracingService.Trace("Option set value :{0}",value);
+            //tracingService.Trace("before Exception");
+
+            if (AccountStatus == "False")
             {
 
             QueryExpression query = new QueryExpression("contact");
             query.ColumnSet = new ColumnSet(new string[] { "contactid", "fullname" });
-                        query.Criteria.AddCondition(new ConditionExpression("parentcustomerid", ConditionOperator.Equal, account.Id));
+            query.Criteria.AddCondition(new ConditionExpression("parentcustomerid", ConditionOperator.Equal, account.Id));
             EntityCollection results = service.RetrieveMultiple(query);
                         tracingService.Trace("inside if block");
-                        tracingService.Trace("Results :" + results);
-            
+                        tracingService.Trace("Count :" + results.Entities.Count);
+                        tracingService.Trace("Count :" + results.EntityName);
+                        tracingService.Trace("Results :" + results.ToString());
+                
+            foreach(Entity contact in results.Entities)
+                        {
+                            tracingService.Trace("Name" + contact["firstname"]);
+                        }
+
+                 
             }                
 
             }
