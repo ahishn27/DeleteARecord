@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Query;
+
 
 
 namespace DeleteARecord
@@ -31,24 +33,34 @@ namespace DeleteARecord
 
             try
             {
-
             IOrganizationServiceFactory organizationServiceFactory = (IOrganizationServiceFactory)serviceProvider.GetService
                         (typeof(IOrganizationServiceFactory));
-
             IOrganizationService service = organizationServiceFactory.CreateOrganizationService(context.UserId);
-
             tracingService.Trace("Org Service Invoked");
 
-                   
 
+            string AccountStatus = account["new_accountstatus"].ToString();
+            tracingService.Trace("Account Status Updated to "+ AccountStatus);
 
-                }
-                catch
-                {
+            if (AccountStatus == "Inactive")
+            {
 
+            QueryExpression query = new QueryExpression("contact");
+            query.ColumnSet = new ColumnSet(new string[] { "contactid", "fullname" });
+                        query.Criteria.AddCondition(new ConditionExpression("parentcustomerid", ConditionOperator.Equal, account.Id));
+            EntityCollection results = service.RetrieveMultiple(query);
+                        tracingService.Trace("inside if block");
+                        tracingService.Trace("Results :" + results);
+            
+            }                
 
-                }
             }
+            catch (Exception e)
+            {
+                    tracingService.Trace("{0}", e.ToString());
+                    throw;
+            }
+        }
 
         
 
